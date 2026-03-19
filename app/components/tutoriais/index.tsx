@@ -2,20 +2,26 @@ import { AspectRatio } from "@/components/ui/aspect-ratio"
 
 export function Tutorial() {
   return (
-    <div className="flex justify-center mt-5">
-      <div className="w-[280px] sm:w-[320px]">
-        <AspectRatio ratio={9 / 16}>
-        <h1 className="text-center text-3xl">Tutorial</h1>
-          <video
-            controls
-            preload="metadata"
-            className="rounded-md"
-          >
-            <iframe src="https://youtu.be/Uhp_6C7tQfY"/>
-            Your browser does not support the video tag.
-          </video>
-        </AspectRatio>
+    <div className="flex flex-col items-center m-3 h-[60%] wpx-2">
+
+      <h1 className="text-2xl font-bold m-5 text-center">
+        Como usar o Unfalou
+      </h1>
+
+      <div className=" h-full w-[60%] bg-card rounded-xl shadow-lg p-1 border md:w-auto">
+
+
+          <iframe
+            className="w-full h-full rounded-lg"
+            src="https://www.youtube.com/embed/Uhp_6C7tQfY"
+            title="Tutorial Unfalou"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+
+
       </div>
+
     </div>
   )
 }

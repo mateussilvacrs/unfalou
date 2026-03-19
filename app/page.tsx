@@ -123,7 +123,7 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center gap-8 p-2 min-h-[80%]">
+    <div className="flex flex-col items-center justify-center gap-8 p-2 min-h-[45%]">
       {/* UPLOADS */}
       <div className="flex gap-5 flex-wrap items-center justify-center">
         <UploadJson type="followers" onUsersLoaded={showFollowers} />
