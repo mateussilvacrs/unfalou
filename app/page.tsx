@@ -168,7 +168,7 @@ function showAllUsers() {
   const totalUsers = followers.length + following.length;
 
   return (
-   <div className="h-full">
+   <div className="-h-[80%]">
     <div className="flex flex-col items-center justify-center gap-8 p-4 mt-1">
         
 
@@ -180,47 +180,45 @@ function showAllUsers() {
         />
       )}
       
-      {/* Estatísticas */}
-      {uploaded && (
-<div className="grid grid-cols-2 gap-5 w-screen p-5 
-                sm:grid-cols-2 md:grid-cols-4 md:w-[80%] md:mx-auto">
-  {/* Card 1 */}
-  <div className="flex flex-col justify-between items-center text-center gap-2 md:gap-5 p-3 bg-gray-100 rounded-lg shadow h-full">
-    <span className="font-bold">Seguidores: {followers.length}</span>
-    <Button onClick={showFollowersUsers}>Ver meus seguidores</Button>
+
+
+{/* Upload */}
+{!uploaded ? (
+  <div className="fixed inset-0 flex items-center justify-center">
+    <UploadZip
+      onFollowersLoaded={showFollowers}
+      onFollowingLoaded={showFollowing}
+    />
   </div>
+) : (      
 
-  {/* Card 2 */}
-  <div className="flex flex-col justify-between items-center text-center gap-2 md:gap-5 p-3 bg-gray-100 rounded-lg shadow h-full">
-    <span className="font-bold">Seguindo: {following.length}</span>
-    <Button onClick={showFollowingUsers}>Ver quem eu sigo</Button>
-  </div>
+  /* Estatísticas */
+  <div className={`flex flex-col items-center gap-5 p-4 w-full ${!visibleTable ? "fixed inset-0 justify-center" : ""}`}>
+    <div className="grid grid-cols-2 gap-5 w-full sm:grid-cols-2 md:grid-cols-4 md:w-[80%]">
+      <div className="flex flex-col justify-between items-center text-center gap-2 md:gap-5 p-3 bg-gray-100 rounded-lg shadow h-full">
+        <span className="font-bold">Seguidores: {followers.length}</span>
+        <Button onClick={showFollowersUsers}>Ver meus seguidores</Button>
+      </div>
 
-  {/* Card 3 */}
-  <div className="flex flex-col justify-between items-center text-center gap-2 md:gap-5 p-3 bg-gray-100 rounded-lg shadow h-full">
-    <span className="font-bold">Não te seguem de volta: {notFollowingBackCount}</span>
-    <Button onClick={showNotFollowingBack}>Ver quem não segue</Button>
-  </div>
+      <div className="flex flex-col justify-between items-center text-center gap-2 md:gap-5 p-3 bg-gray-100 rounded-lg shadow h-full">
+        <span className="font-bold">Seguindo: {following.length}</span>
+        <Button onClick={showFollowingUsers}>Ver quem eu sigo</Button>
+      </div>
 
-  {/* Card 4 */}
-  <div className="flex flex-col justify-between items-center text-center gap-2 md:gap-5 p-3 bg-gray-100 rounded-lg shadow h-full">
-    <span className="font-bold">Total: {totalUsers}</span>
-    <Button onClick={showAllUsers}>Ver todos</Button>
-  </div>
-  
-</div>
+      <div className="flex flex-col justify-between items-center text-center gap-2 md:gap-5 p-3 bg-gray-100 rounded-lg shadow h-full">
+        <span className="font-bold">Não te seguem de volta: {notFollowingBackCount}</span>
+        <Button onClick={showNotFollowingBack}>Ver quem não segue</Button>
+      </div>
 
-      )}
-      {/* Upload */}
-      {!uploaded ? (
-        <UploadZip
-          onFollowersLoaded={showFollowers}
-          onFollowingLoaded={showFollowing}
-        />
-      ) : (
-        <Button onClick={resetVerification}>Fazer nova verificação</Button>
-      )}
-      {/* Tabela */}
-
+      <div className="flex flex-col justify-between items-center text-center gap-2 md:gap-5 p-3 bg-gray-100 rounded-lg shadow h-full">
+        <span className="font-bold">Total: {totalUsers}</span>
+        <Button onClick={showAllUsers}>Ver todos</Button>
+      </div>
     </div>
-</div> )}
+
+    <Button onClick={resetVerification}>Fazer nova verificação</Button>
+  </div>
+)}
+</div>
+</div>
+)}

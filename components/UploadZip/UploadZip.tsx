@@ -160,14 +160,17 @@ export default function UploadZip({ onFollowersLoaded, onFollowingLoaded }: Prop
   return (
     <div className="flex flex-col items-center gap-3 border text-center rounded-md p-4">
       <p className="font-bold">Upload do arquivo ZIP exportado do Instagram</p>
-
-      <input
-        type="file"
-        accept=".zip"
-        onChange={handleZip}
-        disabled={loading}
-        className="border p-2 rounded cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-      />
+<label htmlFor="instagramZip" className="cursor-pointer  font-semibold">
+  Clique aqui para importar seu arquivo
+</label>
+<input
+  id="instagramZip"
+  type="file"
+  accept=".zip"
+  onChange={handleZip}
+  disabled={loading}
+  className="border bg-gray-50 p-2 rounded cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+/>
 
       {loading && (
         <p className="text-sm text-gray-500 animate-pulse">Processando ZIP…</p>
