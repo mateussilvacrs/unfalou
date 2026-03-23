@@ -59,14 +59,14 @@ export function DataTable<TData, TValue>({
   return (
     <div className="flex flex-col  text-center w-screen md:px-4 md:w-[50%]">
 
-      <div className="w-full">
+      <div className="w-full bg-gray-100" >
         <div className="m-2 md:m-5 rounded-md border">
 
           <h1 className="m-3 md:m-5 text-center font-bold">
             {title}
           </h1>
 
-<Table className=" table-fixed text-center md:table-fixed md:w-full">     
+<Table className=" table-fixed text-center md:table-fixed md:w-full ">     
          <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>

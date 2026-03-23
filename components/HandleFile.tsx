@@ -106,7 +106,7 @@ export default function UploadJson({ type, onUsersLoaded }: UploadJsonProps) {
 
         <Input type="file" accept=".json" onChange={handleSelect} />
 
-        <Button onClick={handleUpload}>
+        <Button className="hover:cursor-pointer" onClick={handleUpload}>
           {type === "followers" ? "Ver seguidores" : "Ver quem eu sigo"}
         </Button>
       </div>

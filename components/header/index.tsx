@@ -7,7 +7,7 @@ export function Header() {
         <div className="txt-title-site font-bold flex items-center px-12 justify-between w-full">
           <div>
             <Link href={"./"}>
-              <h1 className="text-2xl">UnFalou?</h1>
+              <h1 className="text-2xl">UnFalou</h1>
             </Link>
           </div>
           <nav className="menu-links text-[18px]">

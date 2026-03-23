@@ -1,8 +1,7 @@
-import { AspectRatio } from "@/components/ui/aspect-ratio"
 
 export function Tutorial() {
   return (
-    <div className="flex flex-col items-center m-3 h-[60%] wpx-2">
+    <div className="flex flex-col items-center  h-[60%] wpx-2">
 
       <h1 className="text-2xl font-bold m-5 text-center">
         Como usar o Unfalou
