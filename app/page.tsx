@@ -168,8 +168,9 @@ function showAllUsers() {
   const totalUsers = followers.length + following.length;
 
   return (
-   <div className="-h-[80%]">
+<div className="min-h-[80vh]">
     <div className="flex flex-col items-center justify-center gap-8 p-4 mt-1">
+      <Tutorial />
         
 
       {visibleTable && (
@@ -184,8 +185,8 @@ function showAllUsers() {
 
 {/* Upload */}
 {!uploaded ? (
-  <div className="fixed inset-0 flex items-center justify-center">
-    <UploadZip
+<div className="h-full flex flex-col">
+      <UploadZip
       onFollowersLoaded={showFollowers}
       onFollowingLoaded={showFollowing}
     />
@@ -193,7 +194,7 @@ function showAllUsers() {
 ) : (      
 
   /* Estatísticas */
-  <div className={`flex flex-col items-center gap-5 p-4 w-full ${!visibleTable ? "fixed inset-0 justify-center" : ""}`}>
+  <div className={`flex flex-col items-center gap-5 p-4 w-full ${!visibleTable ? "flex flex-col items-center gap-5 p-4 w-full" : ""}`}>
     <div className="grid grid-cols-2 gap-5 w-full sm:grid-cols-2 md:grid-cols-4 md:w-[80%]">
       <div className="flex flex-col justify-between items-center text-center gap-2 md:gap-5 p-3 bg-gray-100 rounded-lg shadow h-full">
         <span className="font-bold">Seguidores: {followers.length}</span>

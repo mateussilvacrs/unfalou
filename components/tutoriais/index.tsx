@@ -1,26 +1,17 @@
-
 export function Tutorial() {
   return (
-    <div className="flex flex-col items-center  h-[60%] wpx-2">
-
-      <h1 className="text-2xl font-bold m-5 text-center">
-        Como usar o Unfalou
+    <div className="flex flex-col items-center gap-3 px-4 pt-6 pb-2 w-full max-w-sm mx-auto">
+      <h1 className="text-xl font-bold text-center leading-tight">
+        Descubra quem não te segue de volta
       </h1>
-
-      <div className=" h-full w-[60%] bg-card rounded-xl shadow-lg p-1 border md:w-auto">
-
-
-          <iframe
-            className="w-full h-full rounded-lg"
-            src="https://www.youtube.com/embed/Uhp_6C7tQfY"
-            title="Tutorial Unfalou"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
-
-
+      <p className="text-sm text-muted-foreground text-center">
+        Faça upload do seu arquivo do Instagram e veja tudo em segundos.
+      </p>
+      <div className="w-full rounded-xl shadow-md border overflow-hidden">
+        <video autoPlay controls preload="auto" className="w-full h-auto">
+          <source src="/unfalou.mp4" type="video/mp4" />
+        </video>
       </div>
-
     </div>
-  )
+  );
 }
