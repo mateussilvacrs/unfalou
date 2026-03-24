@@ -8,7 +8,7 @@ export function Tutorial() {
         Faça upload do seu arquivo do Instagram e veja tudo em segundos.
       </p>
       <div className="w-full rounded-xl shadow-md border overflow-hidden">
-        <video autoPlay controls preload="auto" className="w-full h-auto">
+        <video autoPlay controls  preload="auto" className="w-full h-auto">
           <source src="/unfalou.mp4" type="video/mp4" />
         </video>
       </div>
