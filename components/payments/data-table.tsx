@@ -44,7 +44,7 @@ export function DataTable<TData, TValue>({
   const totalPages = Math.max(1, table.getPageCount())
   const currentPage = table.getState().pagination.pageIndex
 
-  const maxPages = 5
+  const maxPages = 2
 
   const start = Math.max(
     0,
@@ -57,16 +57,16 @@ export function DataTable<TData, TValue>({
   const end = Math.min(totalPages, start + maxPages)
 
   return (
-    <div className="flex flex-col  text-center w-screen md:px-4 md:w-[50%]">
+    <div className="flex flex-col  text-center max-w-7xl md:w-7xl ">
 
-      <div className="w-full bg-gray-100" >
-        <div className="m-2 md:m-5 rounded-md border">
+
+        <div className="bg-gray-50 py-2 md:py-5 rounded-md border w-full">
 
           <h1 className="m-3 md:m-5 text-center font-bold">
             {title}
           </h1>
 
-<Table className=" table-fixed text-center md:table-fixed md:w-full ">     
+<Table className=" table-fixed text-center md:table-fixed md:w-full  ">     
          <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
@@ -121,13 +121,13 @@ export function DataTable<TData, TValue>({
           </Table>
 
         </div>
-      </div>
+    
 
       {/* PAGINAÇÃO RESPONSIVA */}
-      <div className="flex flex-wrap justify-center items-center gap-2 py-4">
+      <div className="flex flex-wrap justify-between w-full  items-center gap-1 py-4">
 
         <button
-          className="border px-3 py-1 rounded disabled:opacity-50"
+          className="text-sm border px-1 py-1 rounded disabled:opacity-50"
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
@@ -137,12 +137,11 @@ export function DataTable<TData, TValue>({
         {start > 0 && (
           <>
             <button
-              className="border px-3 py-1 rounded"
+              className="text-sm border px-2 py-1 rounded"
               onClick={() => table.setPageIndex(0)}
             >
               1
             </button>
-            <span>...</span>
           </>
         )}
 
@@ -153,7 +152,7 @@ export function DataTable<TData, TValue>({
             <button
               key={page}
               onClick={() => table.setPageIndex(page)}
-              className={`border px-3 py-1 rounded ${
+              className={`text-sm border px-3 py-1 rounded ${
                 currentPage === page
                   ? "bg-black text-white font-bold"
                   : "hover:bg-gray-200"
@@ -166,9 +165,8 @@ export function DataTable<TData, TValue>({
 
         {end < totalPages && (
           <>
-            <span>...</span>
             <button
-              className="border px-3 py-1 rounded"
+              className="text-sm border px-2 py-1 rounded"
               onClick={() => table.setPageIndex(totalPages - 1)}
             >
               {totalPages}
@@ -177,7 +175,7 @@ export function DataTable<TData, TValue>({
         )}
 
         <button
-          className="border px-3 py-1 rounded disabled:opacity-50"
+          className="text-sm border px-3 py-1 rounded disabled:opacity-50"
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >

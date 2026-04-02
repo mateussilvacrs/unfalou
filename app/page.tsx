@@ -6,6 +6,7 @@ import { DataTable } from "../components/payments/data-table";
 import { columns } from "../components/payments/columns";
 import { Button } from "@/components/ui/button";
 import { Tutorial } from "@/components/tutoriais";
+import { CarouselPlugin } from "@/components/slider-home";
 
 type Payment = {
   id: string;
@@ -170,8 +171,7 @@ function showAllUsers() {
   return (
 <div className="min-h-[80vh]">
     <div className="flex flex-col items-center justify-center gap-8 p-4 mt-1">
-      <Tutorial />
-        
+        <CarouselPlugin />
 
       {visibleTable && (
         <DataTable
@@ -194,8 +194,8 @@ function showAllUsers() {
 ) : (      
 
   /* Estatísticas */
-  <div className={`flex flex-col items-center gap-5 p-4 w-full ${!visibleTable ? "flex flex-col items-center gap-5 p-4 w-full" : ""}`}>
-    <div className="grid grid-cols-2 gap-5 w-full sm:grid-cols-2 md:grid-cols-4 md:w-[80%]">
+  <div className={`flex flex-col items-center gap-5 p-4 w-screen md:w-full ${!visibleTable ? "flex flex-col items-center gap-5 p-4 w-full" : ""}`}>
+    <div className="grid grid-cols-2 gap-5 w-full sm:grid-cols-2 md:grid-cols-4 md:w-7xl">
       <div className="flex flex-col justify-between items-center text-center gap-2 md:gap-5 p-3 bg-gray-100 rounded-lg shadow h-full">
         <span className="font-bold">Seguidores: {followers.length}</span>
         <Button onClick={showFollowersUsers}>Ver meus seguidores</Button>
