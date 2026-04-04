@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import UploadZip from "@/components/UploadZip/UploadZip";
 import { DataTable } from "../components/payments/data-table";
 import { columns } from "../components/payments/columns";
 import { Button } from "@/components/ui/button";
-import { Tutorial } from "@/components/tutoriais";
+import { CarouselPlugin } from "@/components/slider-home";
+import ContainerHome from "@/components/container-1";
 
 type Payment = {
   id: string;
@@ -27,199 +28,204 @@ export default function Home() {
   const [tableTitle, setTableTitle] = useState("");
   const [isComparing, setIsComparing] = useState(false);
   const [visibleTable, setVisibleTable] = useState(false);
+  const [showUpload, setShowUpload] = useState(false);
 
-  // 🔹 estado derivado
-  const uploaded = followers.length > 0 && following.length > 0;
+  const uploadRef = useRef<HTMLDivElement>(null);
 
-  function showFollowers(users: UserWithDate[]) {
-    setFollowers(users);
-  }
+  const handleAnalyzeClick = () => {
+    setShowUpload(true);
+    setVisibleTable(false);
+    setTimeout(() => {
+      uploadRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 100);
+  };
 
-  function showFollowing(users: UserWithDate[]) {
-    setFollowing(users);
-  }
+  const handleBothLoaded = (
+    newFollowers: UserWithDate[],
+    newFollowing: UserWithDate[],
+  ) => {
+    setFollowers(newFollowers);
+    setFollowing(newFollowing);
+    setShowUpload(false);
+  };
 
-  function showFollowersUsers() {
-  const result: Payment[] = followers.map((user, index) => ({
-    id: String(index),
-    username: user.username,
-    hora: user.date,
-    link: `https://instagram.com/${user.username}`,
-    status: "Sim",
-  }));
+  const showFollowersUsers = () => {
+    const result: Payment[] = followers.map((user, index) => ({
+      id: String(index),
+      username: user.username,
+      hora: user.date,
+      link: `https://instagram.com/${user.username}`,
+      status: "Sim",
+    }));
+    setIsComparing(false);
+    setTableTitle("Pessoas que te seguem");
+    setVisibleTable(true);
+    setPayments(result);
+  };
 
-  setIsComparing(false);
-  setTableTitle("Pessoas que te seguem");
-  setVisibleTable(true);
-  setPayments(result);
-}
+  const showFollowingUsers = () => {
+    const result: Payment[] = following.map((user, index) => ({
+      id: String(index),
+      username: user.username,
+      hora: user.date,
+      link: `https://instagram.com/${user.username}`,
+      status: "Sim",
+    }));
+    setIsComparing(false);
+    setTableTitle("Pessoas que você segue");
+    setVisibleTable(true);
+    setPayments(result);
+  };
 
-  function resetVerification() {
+  const showNotFollowingBack = () => {
+    const followersSet = new Set(followers.map((f) => f.username));
+    const result: Payment[] = following
+      .filter((user) => !followersSet.has(user.username))
+      .map((user, index) => ({
+        id: String(index),
+        username: user.username,
+        hora: user.date,
+        link: `https://instagram.com/${user.username}`,
+        status: "Não",
+      }));
+    setIsComparing(true);
+    setTableTitle("Pessoas que não te seguem de volta");
+    setVisibleTable(true);
+    setPayments(result);
+  };
+
+  const showAllUsers = () => {
+    const followersSet = new Set(followers.map((f) => f.username));
+    const followingSet = new Set(following.map((f) => f.username));
+    const allUsersMap = new Map<string, UserWithDate>();
+
+    [...followers, ...following].forEach((user) => {
+      allUsersMap.set(user.username, user);
+    });
+
+    const result: Payment[] = Array.from(allUsersMap.values())
+      .map((user, index) => ({
+        id: String(index),
+        username: user.username,
+        hora: user.date,
+        link: `https://instagram.com/${user.username}`,
+        status: (
+          followingSet.has(user.username) && followersSet.has(user.username)
+            ? "Sim"
+            : "Não"
+        ) as Payment["status"],
+      }))
+      .sort((a, b) => a.username.localeCompare(b.username, "pt-BR"));
+
+    setIsComparing(true);
+    setTableTitle("Todos os usuários");
+    setVisibleTable(true);
+    setPayments(result);
+  };
+
+  const resetVerification = () => {
     setFollowers([]);
     setFollowing([]);
     setPayments([]);
     setVisibleTable(false);
-  }
-
-  function compareUsers(
-    followersList: UserWithDate[],
-    followingList: UserWithDate[],
-  ) {
-    const followersSet = new Set(followersList.map((f) => f.username));
-
-    const notFollowingBack = followingList.filter(
-      (user) => !followersSet.has(user.username),
-    );
-
-    const result: Payment[] = notFollowingBack.map((user, index) => ({
-      id: String(index),
-      username: user.username,
-      hora: user.date,
-      link: `https://instagram.com/${user.username}`,
-      status: "Não",
-    }));
-
-    setIsComparing(true);
-    setTableTitle("Pessoas que não te seguem");
-    setVisibleTable(true);
-    setPayments(result);
-  }
-
-function showFollowingUsers() {
-  const result: Payment[] = following.map((user, index) => ({
-    id: String(index),
-    username: user.username,
-    hora: user.date,
-    link: `https://instagram.com/${user.username}`,
-    status: "Sim",
-  }));
-
-  setIsComparing(false);
-  setTableTitle("Pessoas que você segue");
-  setVisibleTable(true);
-  setPayments(result);
-}
-
-  function showNotFollowingBack() {
-  const followersSet = new Set(followers.map((f) => f.username));
-
-  const notFollowingBack = following.filter(
-    (user) => !followersSet.has(user.username)
-  );
-
-  const result: Payment[] = notFollowingBack.map((user, index) => ({
-    id: String(index),
-    username: user.username,
-    hora: user.date,
-    link: `https://instagram.com/${user.username}`,
-    status: "Não",
-  }));
-
-  setIsComparing(true);
-  setTableTitle("Pessoas que não te seguem de volta");
-  setVisibleTable(true);
-  setPayments(result);
-}
-
-function showAllUsers() {
-  const followersSet = new Set(followers.map((f) => f.username));
-  const followingSet = new Set(following.map((f) => f.username));
-
-  const allUsersMap = new Map<string, UserWithDate>();
-
-  followers.forEach((user) => {
-    allUsersMap.set(user.username, user);
-  });
-
-  following.forEach((user) => {
-    if (!allUsersMap.has(user.username)) {
-      allUsersMap.set(user.username, user);
-    }
-  });
-
-  const result: Payment[] = Array.from(allUsersMap.values()).map(
-    (user, index) => ({
-      id: String(index),
-      username: user.username,
-      hora: user.date,
-      link: `https://instagram.com/${user.username}`,
-      status: followingSet.has(user.username)
-        ? followersSet.has(user.username)
-          ? "Sim"
-          : "Não"
-        : "Sim",
-    })
-  );
-
-      result.sort((a, b) => a.username.localeCompare(b.username, "pt-BR"));
-
-
-  setIsComparing(true);
-  setTableTitle("Todos os usuários");
-  setVisibleTable(true);
-  setPayments(result);
-}
+    setShowUpload(false);
+    setTableTitle("");
+    setIsComparing(false);
+  };
 
   const followersSet = new Set(followers.map((f) => f.username));
-
   const notFollowingBackCount = following.filter(
     (user) => !followersSet.has(user.username),
   ).length;
-  const totalUsers = followers.length + following.length;
+  const totalUsers = new Set([
+    ...followers.map((f) => f.username),
+    ...following.map((f) => f.username),
+  ]).size;
+
+  const bothLoaded = followers.length > 0 && following.length > 0;
 
   return (
-<div className="min-h-[80vh]">
-    <div className="flex flex-col items-center justify-center gap-8 p-4 mt-1">
-      <Tutorial />
-        
+    <div className="flex flex-col gap-12 bg-gray-50 dark:bg-gray-900 min-h-screen pb-10">
 
-      {visibleTable && (
-        <DataTable
-          columns={columns(isComparing)}
-          data={payments}
-          title={tableTitle}
-        />
-      )}
-      
+      <CarouselPlugin onAnalyzeClick={handleAnalyzeClick} />
 
+      <div className="max-w-7xl mx-auto w-full flex flex-col gap-10 px-4 md:px-10">
 
-{/* Upload */}
-{!uploaded ? (
-<div className="h-full flex flex-col">
-      <UploadZip
-      onFollowersLoaded={showFollowers}
-      onFollowingLoaded={showFollowing}
-    />
-  </div>
-) : (      
+        <ContainerHome onAnalyzeClick={handleAnalyzeClick} />
 
-  /* Estatísticas */
-  <div className={`flex flex-col items-center gap-5 p-4 w-full ${!visibleTable ? "flex flex-col items-center gap-5 p-4 w-full" : ""}`}>
-    <div className="grid grid-cols-2 gap-5 w-full sm:grid-cols-2 md:grid-cols-4 md:w-[80%]">
-      <div className="flex flex-col justify-between items-center text-center gap-2 md:gap-5 p-3 bg-gray-100 rounded-lg shadow h-full">
-        <span className="font-bold">Seguidores: {followers.length}</span>
-        <Button onClick={showFollowersUsers}>Ver meus seguidores</Button>
-      </div>
+        {visibleTable && (
+          <DataTable
+            columns={columns(isComparing)}
+            data={payments}
+            title={tableTitle}
+            enableDate={!isComparing}
+          />
+        )}
 
-      <div className="flex flex-col justify-between items-center text-center gap-2 md:gap-5 p-3 bg-gray-100 rounded-lg shadow h-full">
-        <span className="font-bold">Seguindo: {following.length}</span>
-        <Button onClick={showFollowingUsers}>Ver quem eu sigo</Button>
-      </div>
+        {(!bothLoaded || showUpload) && (
+          <div className="flex justify-center animate-fadeIn mt-10">
+            <div ref={uploadRef}>
+              <UploadZip onBothLoaded={handleBothLoaded} />
+            </div>
+          </div>
+        )}
 
-      <div className="flex flex-col justify-between items-center text-center gap-2 md:gap-5 p-3 bg-gray-100 rounded-lg shadow h-full">
-        <span className="font-bold">Não te seguem de volta: {notFollowingBackCount}</span>
-        <Button onClick={showNotFollowingBack}>Ver quem não segue</Button>
-      </div>
+        {bothLoaded && !showUpload && (
+          <div className="flex flex-col gap-8 animate-fadeIn">
 
-      <div className="flex flex-col justify-between items-center text-center gap-2 md:gap-5 p-3 bg-gray-100 rounded-lg shadow h-full">
-        <span className="font-bold">Total: {totalUsers}</span>
-        <Button onClick={showAllUsers}>Ver todos</Button>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+              {[
+                {
+                  label: "Seguidores",
+                  value: followers.length,
+                  action: showFollowersUsers,
+                  color: "bg-blue-50 text-blue-700",
+                },
+                {
+                  label: "Seguindo",
+                  value: following.length,
+                  action: showFollowingUsers,
+                  color: "bg-purple-50 text-purple-700",
+                },
+                {
+                  label: "Não seguem você",
+                  value: notFollowingBackCount,
+                  action: showNotFollowingBack,
+                  color: "bg-red-50 text-red-700",
+                },
+                {
+                  label: "Total",
+                  value: totalUsers,
+                  action: showAllUsers,
+                  color: "bg-gray-50 text-gray-700",
+                },
+              ].map((card, idx) => (
+                <div
+                  key={idx}
+                  className={`flex flex-col items-center gap-3 p-6 rounded-2xl border shadow-sm hover:shadow-lg hover:scale-105 transition-transform duration-300 ${card.color}`}
+                >
+                  <span className="text-sm font-medium">{card.label}</span>
+                  <span className="text-3xl font-extrabold">{card.value}</span>
+                  <Button className="w-full" onClick={card.action}>
+                    Ver lista
+                  </Button>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex justify-center">
+              <Button
+                variant="outline"
+                className="px-8 py-2 hover:bg-gray-100 transition"
+                onClick={resetVerification}
+              >
+                Fazer nova verificação
+              </Button>
+            </div>
+
+          </div>
+        )}
       </div>
     </div>
-
-    <Button onClick={resetVerification}>Fazer nova verificação</Button>
-  </div>
-)}
-</div>
-</div>
-)}
+  );
+}
