@@ -5,7 +5,7 @@ interface ContainerInfoProps {
 
 export function ContainerInfo({ title, users }: ContainerInfoProps) {
   return (
-    <div className="border-solid border w-96 rounded-sm text-center">
+    <div className="border-solid border md:w-7xl  rounded-sm text-center">
       <h1 className="font-bold">{title}</h1>
       <div>
 {users.slice(0,5).map((user, index) => (

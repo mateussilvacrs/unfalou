@@ -9,7 +9,8 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
   return (
     <header className="bg-linear-90 from-[#000000] to-[#010b97] text-white">
-<div className="max-w-7xl mx-auto px-4 flex h-20 items-center justify-between w-full">  <Link href="/">
+<div className="max-w-7xl mx-auto px-4 flex h-20 items-center justify-between w-full">
+    <Link href="/">
 
     <Image
       alt="logo"
@@ -28,19 +29,17 @@ export function Header() {
         <div className="hidden sm:block menu-desktop">
         <nav className="text-[18px] font-semibold">
           <ul className="flex gap-8">
-            <li>
+            <li className="transition duration-200 hover:scale-105">
               <Link
                 href="/"
-                className="transition duration-300 hover:text-black hover:opacity-80"
               >
                 Home
               </Link>
             </li>
 
-            <li>
+            <li className="transition duration-200 hover:scale-105">
               <Link
                 href="/tutorial"
-                className="transition duration-300 hover:text-black hover:opacity-80"
               >
                 Tutorial
               </Link>
@@ -58,7 +57,7 @@ export function Header() {
   className={`sm:hidden overflow-hidden transition-all duration-500 ${
     menuOpen ? "max-h-40" : "max-h-0"
   } bg-linear-90 from-[#000000] to-[#010b97] border-t shadow-xl`}
->                <nav className="text-[18px] font-semibold">
+>                <nav className="text-sm font-semibold">
           <ul className="flex flex-col gap-2 items-center my-4">
             <li>
               <Link
