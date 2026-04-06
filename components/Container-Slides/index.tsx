@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/carousel";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
+import TextType from "../TextType";
 
 type Props = {
   onAnalyzeClick?: () => void;
@@ -106,32 +107,45 @@ export function CarouselPlugin({ onAnalyzeClick, onPixClick }: Props) {
           {/* SLIDE 3 */}
           <CarouselItem>
             <CardContent className="p-0">
-              <div className="relative aspect-video w-full rounded-xl overflow-hidden bg-gray-900">
-                <div className="absolute inset-0 bg-linear-to-br from-[#010b97] via-[#000000] to-[#1a0050] opacity-90" />
+<div className="relative aspect-video w-full rounded-xl overflow-hidden">
 
-                <div className="absolute inset-0 flex items-center justify-end">
-                  <div className="flex flex-col w-[60%] items-center p-3 md:px-10 text-white font-bold text-center gap-4 md:gap-8">
-                    <span className="text-[10px] md:text-xs font-semibold tracking-widest uppercase bg-white/10 px-3 py-1 rounded-full">
-                      Novidades
-                    </span>
+  {/* GIF só na metade esquerda */}
+  <div className="absolute md:mt-5 inset-y-0 left-0 md:w-[50%] w-[45%] h-full z-310">
+    <Image
+      src="/foguete-2.gif"
+      alt="home"
+      fill
+      className=" object-cover z-100 "
+      priority
+      unoptimized
+    />
+  </div>
 
-                    <h1 className="text-sm md:text-2xl lg:text-4xl">
-                      Confira as últimas atualizações do UnFalou!
-                    </h1>
+  {/* Overlay */}
+  <div className="absolute inset-0 bg-linear-to-br from-[#010b97] via-[#000000] to-[#1a0050] opacity-90 z-10" />
 
-                    <p className="text-[10px] md:text-sm text-white/70 font-normal">
-                      Melhorias, correções e novos recursos a cada versão.
-                    </p>
+  {/* Conteúdo */}
+  <div className="absolute inset-0 flex items-center justify-end z-20">
+    <div className="flex flex-col  w-[70%]  md:w-[60%] items-center p-3 md:px-10 text-white font-bold text-center gap-2 md:gap-8">
+      <span className="text-xs md:text-xs font-semibold tracking-widest md:uppercase bg-green-500 text-black px-3 py-1 rounded-full">
+        Novidades
+      </span>
+      <h1 className="text-xs md:text-2xl lg:text-4xl">
+        Veja as últimas atualizações do UnFalou e o que vem por aí!
+      </h1>
+      <p className="text-xs md:text-2xl text-white/70 font-normal">
+        Estamos sempre trabalhando para melhorar o UnFalou. Clicando no botão abaixo, você fica por dentro das últimas atualizações.
+      </p>
+      <Button
+        onClick={() => router.push("/atualizacoes")}
+        className="text-xs mt-2 md:mt-6 bg-[#353535] text-white px-6 py-2 md:px-10 md:py-3 h-8 md:h-10 md:w-60 rounded-xl hover:bg-black transition-all duration-500"
+      >
+        ATUALIZAÇÕES
+      </Button>
+    </div>
+  </div>
 
-                    <Button
-                      onClick={() => router.push("/atualizacoes")}
-                      className="w-28 text-[12px] mt-4 md:mt-6 bg-[#353535] text-white px-6 py-2 md:px-10 md:py-3 md:h-10 md:w-60 rounded-xl hover:bg-black transition-all duration-500"
-                    >
-                       ATUALIZAÇÕES
-                    </Button>
-                  </div>
-                </div>
-              </div>
+</div>
             </CardContent>
           </CarouselItem>
 
@@ -142,23 +156,27 @@ export function CarouselPlugin({ onAnalyzeClick, onPixClick }: Props) {
                 <div className="absolute inset-0 bg-linear-to-br from-[#004d00] via-[#000000] to-[#004d40] opacity-90" />
 
                 <div className="absolute inset-0 flex items-center justify-end">
-                  <div className="flex flex-col w-[60%] items-center p-3 md:px-10 text-white font-bold text-center gap-4 md:gap-8">
+                  <div className="flex flex-col w-full items-center p-3 md:px-10 text-white font-bold text-center gap-4 md:gap-8">
                     <span className="text-[10px] md:text-xs font-semibold tracking-widest uppercase bg-white/10 px-3 py-1 rounded-full">
                       Apoie o projeto
                     </span>
 
-                    <h1 className="text-sm md:text-2xl lg:text-4xl">
-                      O UnFalou é gratuito e feito com muito carinho 💙
-                    </h1>
 
-                    <p className="text-[10px] md:text-sm text-white/70 font-normal">
-                      Se te ajudou, considere fazer uma doação via Pix para
-                      manter o projeto vivo.
-                    </p>
+
+
+
+<TextType className="w-[80%] text-xs md:text-3xl"
+  text={["A Unfalou é um projeto totalmente gratuíto e independente","Mas você pode ajudar a manter o site no ar fazendo uma doação via Pix. Qualquer valor é super bem-vindo e ajuda muito!"]}
+  typingSpeed={50}
+  deletingSpeed={40}
+  pauseDuration={1500}
+  showCursor={true}
+  cursorCharacter="_"
+/>
 
                     <Button
                       onClick={() => onPixClick?.()}
-                      className="w-24 text-[12px] mt-4 md:mt-6 bg-[#353535] text-white px-6 py-2 md:px-10 md:py-3 md:h-10 md:w-60 rounded-xl hover:bg-black transition-all duration-500"
+                      className="w-24 text-[12px] md:mt-6 bg-[#353535] text-white px-6 py-2 md:px-10 md:py-3 md:h-10 md:w-60 rounded-xl hover:bg-black transition-all duration-500"
                     >
                       APOIAR 💙
                     </Button>
@@ -167,6 +185,7 @@ export function CarouselPlugin({ onAnalyzeClick, onPixClick }: Props) {
               </div>
             </CardContent>
           </CarouselItem>
+
         </CarouselContent>
       </Carousel>
 
