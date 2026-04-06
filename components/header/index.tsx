@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Menu } from 'lucide-react';
 import { useState } from "react";
 
-export function Header() {
+export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
   return (
     <header className="bg-linear-90 from-[#000000] to-[#010b97] text-white">

@@ -1,9 +1,9 @@
 import { Metadata } from "next";
 import "./globals.css";
-import { Header } from "@/components/Header/index";
+import Header  from "@/components/Header";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
-import Footer from "@/components/Footer/index";
+import Footer from "@/components/Footer";
 
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
