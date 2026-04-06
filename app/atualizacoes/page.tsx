@@ -26,6 +26,7 @@ const updates: Update[] = [
       "Listagem de quem você segue",
       "Listagem de todos os usuários",
       "Link direto para o perfil de cada usuário no Instagram",
+      "Apoio via Pix com QR Code e link do PicPay",
       "Design responsivo para desktop, tablet e mobile",
       "Processamento 100% local no navegador, sem envio de dados para servidores",
       "Vídeo tutorial passo a passo para ajudar os usuários a exportar seus dados do Instagram e usar a ferramenta",
