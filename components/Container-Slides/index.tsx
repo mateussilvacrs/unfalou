@@ -25,7 +25,7 @@ export function CarouselPlugin({ onAnalyzeClick, onPixClick }: Props) {
   const plugin = React.useMemo(
     () =>
       Autoplay({
-        delay: 5000,
+        delay: 10000,
         stopOnInteraction: true,
         stopOnMouseEnter: true,
       }),
