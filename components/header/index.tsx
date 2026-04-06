@@ -4,11 +4,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { Menu } from 'lucide-react';
 import { useState } from "react";
+import { Analytics } from "@vercel/analytics/next"
+
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
   return (
+    
     <header className="bg-linear-90 from-[#000000] to-[#010b97] text-white">
+      <Analytics />
 <div className="max-w-7xl mx-auto px-4 flex h-20 items-center justify-between w-full">
     <Link href="/">
 
