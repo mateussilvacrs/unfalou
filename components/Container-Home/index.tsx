@@ -1,16 +1,15 @@
-"use client";
 
 import { Button } from "../ui/button";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 type Props = {
   onAnalyzeClick?: () => void;
 };
 
 export default function ContainerHome({ onAnalyzeClick }: Props) {
-  const [showVideoModal, setShowVideoModal] = useState(false);
+  const router = useRouter();
 
   const cards = [
     {
@@ -29,54 +28,12 @@ export default function ContainerHome({ onAnalyzeClick }: Props) {
       button: "Ver tutorial",
       primary: false,
       gradient: "from-purple-500/10 via-transparent to-pink-500/10",
-      action: () => setShowVideoModal(true),
+      action: () => router.push("/como-usar"), // ✅ redireciona
     },
   ];
 
   return (
-    <div className="max-w-7xl mx-auto flex flex-col gap-16 md:px-0">
-
-      {/* MODAL DO VÍDEO */}
-      {showVideoModal && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
-          onClick={() => setShowVideoModal(false)}
-        >
-          <div
-            className="bg-white rounded-2xl shadow-2xl w-full max-w-sm flex flex-col gap-4 p-4"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center justify-between">
-              <span className="font-semibold text-sm text-gray-900">
-                Tutorial
-              </span>
-              <button
-                onClick={() => setShowVideoModal(false)}
-                className="text-gray-400 hover:text-gray-700 transition text-lg leading-none"
-              >
-                ✕
-              </button>
-            </div>
-
-            <div className="rounded-xl overflow-hidden bg-black flex justify-center">
-              <video
-                src="/unfalou.mp4"
-                controls
-                playsInline
-                autoPlay
-                className="h-[400px] w-auto"
-              />
-            </div>
-
-            <button
-              onClick={() => setShowVideoModal(false)}
-              className="w-full py-2 border rounded-lg text-sm hover:bg-gray-100 transition"
-            >
-              Fechar
-            </button>
-          </div>
-        </div>
-      )}
+    <div className=" flex flex-col gap-16">
 
       {/* HEADER */}
       <motion.div
@@ -103,13 +60,12 @@ export default function ContainerHome({ onAnalyzeClick }: Props) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: i * 0.2 }}
-            className="relative overflow-hidden rounded-3xl border bg-white p-8 shadow-md transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 h-full"
+            className="relative overflow-hidden rounded-3xl  w-s border bg-white p-8 shadow-md transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 h-full"
           >
             <div
-              className={`absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-700 bg-gradient-to-br ${card.gradient}`}
+              className={`absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-700 bg-linear-to-br ${card.gradient}`}
             />
 
-            {/* CONTENT — justify-between empurra o botão para baixo */}
             <div className="relative z-10 flex flex-col gap-6 items-center text-center h-full justify-between">
               <div className="flex flex-col gap-4 items-center">
                 <h2 className="text-xl md:text-3xl font-bold text-gray-900">
@@ -121,7 +77,7 @@ export default function ContainerHome({ onAnalyzeClick }: Props) {
               </div>
 
               <Button
-                onClick={card.action}
+                onClick={card.action} // ✅ agora funciona
                 className={`mt-4 w-full md:w-auto px-6 h-12 rounded-xl transition-all duration-300 shadow-sm hover:shadow-lg flex items-center justify-center gap-2 ${
                   card.primary
                     ? "bg-black text-white hover:bg-gray-900"

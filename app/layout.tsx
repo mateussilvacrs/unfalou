@@ -1,11 +1,10 @@
 import { Metadata } from "next";
 import "./globals.css";
-import { Header } from "../components/header";
+import { Header } from "@/components/Header";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
-import Footer from "@/components/footer";
-import ContainerHome from "@/components/container-1";
-import { CarouselPlugin } from "@/components/slider-home";
+import Footer from "@/components/Footer";
+
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -13,6 +12,7 @@ export const metadata: Metadata = {
   title: "Unfalou - Veja quem parou de te seguir",
   description: "Veja quem parou de te seguir",
   keywords: ["instagram", "seguidores", "quem deixou de seguir"],
+  
 };
 
 export default function RootLayout({

@@ -39,9 +39,17 @@ export function Header() {
 
             <li className="transition duration-200 hover:scale-105">
               <Link
-                href="/tutorial"
+                href="/como-usar"
               >
-                Tutorial
+                Como usar
+              </Link>
+            </li>
+
+            <li className="transition duration-200 hover:scale-105">
+              <Link
+                href="/atualizacoes"
+              >
+                Atualizações
               </Link>
             </li>
           </ul>
@@ -71,13 +79,23 @@ export function Header() {
 
             <li>
               <Link
-                href="/tutorial"
+                href="/como-usar"
                 className="transition duration-300 hover:text-black hover:opacity-80"
                 onClick={() => setMenuOpen(false)}
               >
-                Tutorial
+                Como usar
               </Link>
             </li>
+            <li>
+              <Link
+                href="/atualizacoes"
+                className="transition duration-300 hover:text-black hover:opacity-80"
+                onClick={() => setMenuOpen(false)}
+              >
+                Atualizações
+              </Link>
+            </li>
+            
           </ul>
         </nav>
       </div>

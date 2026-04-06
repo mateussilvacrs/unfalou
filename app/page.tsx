@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import UploadZip from "@/components/UploadZip/UploadZip";
-import { DataTable } from "../components/payments/data-table";
-import { columns } from "../components/payments/columns";
+import { DataTable } from "@/components/Table-Users/data-table";
+import { columns } from "@/components/Table-Users/columns";
 import { Button } from "@/components/ui/button";
-import { CarouselPlugin } from "@/components/slider-home";
-import ContainerHome from "@/components/container-1";
+import { CarouselPlugin } from "@/components/Container-Slides";
+import ContainerHome from "@/components/Container-Home";
+import { PixModal } from "@/components/Pix-Modal";
 
 type Payment = {
   id: string;
@@ -30,6 +31,50 @@ export default function Home() {
   const [visibleTable, setVisibleTable] = useState(false);
   const [showUpload, setShowUpload] = useState(false);
 
+  // 🔥 PIX STATE
+  const [showPix, setShowPix] = useState(false);
+  const [pixKey, setPixKey] = useState("");
+  const [copied, setCopied] = useState(false);
+
+
+  // 🔥 BUSCAR PIX
+  useEffect(() => {
+    if (!showPix) return;
+
+    if (!pixKey) {
+      fetch("/api/pix")
+        .then((r) => r.json())
+        .then((data) => setPixKey(data.key ?? "")) 
+        .catch(() => setPixKey(""));
+    }
+  }, [showPix, pixKey]);
+
+  async function copyPix() {
+    try {
+      await navigator.clipboard.writeText(pixKey);
+    } catch {
+      const textarea = document.createElement("textarea");
+      textarea.value = pixKey;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+
+      try {
+        document.execCommand("copy");
+      } catch {
+        alert("Não foi possível copiar.");
+      }
+
+      document.body.removeChild(textarea);
+    }
+
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+
+
   const uploadRef = useRef<HTMLDivElement>(null);
 
   const handleAnalyzeClick = () => {
@@ -48,6 +93,7 @@ export default function Home() {
     setFollowing(newFollowing);
     setShowUpload(false);
   };
+
 
   const showFollowersUsers = () => {
     const result: Payment[] = followers.map((user, index) => ({
@@ -137,6 +183,7 @@ export default function Home() {
   const notFollowingBackCount = following.filter(
     (user) => !followersSet.has(user.username),
   ).length;
+
   const totalUsers = new Set([
     ...followers.map((f) => f.username),
     ...following.map((f) => f.username),
@@ -145,11 +192,14 @@ export default function Home() {
   const bothLoaded = followers.length > 0 && following.length > 0;
 
   return (
-    <div className="flex flex-col gap-12 bg-gray-50 dark:bg-gray-900 min-h-screen pb-10">
+    <div className="flex flex-col gap-12  dark:bg-gray-900 min-h-screen max-w-7xl m-auto pb-10">
 
-      <CarouselPlugin onAnalyzeClick={handleAnalyzeClick} />
+      <CarouselPlugin
+        onAnalyzeClick={handleAnalyzeClick}
+        onPixClick={() => setShowPix(true)}
+      />
 
-      <div className="max-w-7xl mx-auto w-full flex flex-col gap-10 px-4 md:px-10">
+      <div className="max-w-7xl mx-auto w-full flex flex-col gap-10 ">
 
         <ContainerHome onAnalyzeClick={handleAnalyzeClick} />
 
@@ -216,7 +266,7 @@ export default function Home() {
             <div className="flex justify-center">
               <Button
                 variant="outline"
-                className="px-8 py-2 hover:bg-gray-100 transition"
+                className="px-8 py-2 hover:bg-gray-100 transition duration-800 hover:cursor-pointer bg-black text-white"
                 onClick={resetVerification}
               >
                 Fazer nova verificação
@@ -226,6 +276,16 @@ export default function Home() {
           </div>
         )}
       </div>
+
+      {/* 🔥 AQUI ESTAVA FALTANDO */}
+      <PixModal
+        open={showPix}
+        onClose={() => setShowPix(false)}
+        pixKey={pixKey}
+        copied={copied}
+        onCopy={copyPix}
+      />
+
     </div>
   );
 }

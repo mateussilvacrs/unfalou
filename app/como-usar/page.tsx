@@ -5,19 +5,22 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+
+const videoUrl = "https://www.loom.com/embed/your-video-id"; // Substitua pelo URL do seu vídeo
 
 const steps = [
   {
     number: "01",
     title: "Acesse o Instagram",
     description:
-      'No app ou no site, vá em "Configurações" → "Central de privacidade" → "Baixar seus dados".',
+      'No app ou no site, vá em "Configurações" → pesquise por "Exportar suas Informações" → Clique em "Criar Exportação".',
   },
   {
     number: "02",
     title: "Solicite o export",
     description:
-      'Selecione "Algumas informações suas" → marque "Seguidores e seguindo" → escolha formato JSON e clique em "Criar arquivos".',
+      'Selecione "Exportar para Dispositivo" → Em "Formato" escolha formato JSON → Em "Intervalo de Datas" selecione desde o inicio → clique em "Criar Arquivos".',
   },
   {
     number: "03",
@@ -44,6 +47,18 @@ const faqs = [
     answer:
       "Geralmente entre 1 e 30 minutos, dependendo do tamanho da conta. Você receberá um e-mail quando estiver pronto.",
   },
+
+{
+  question: "Arquivo grande detectado?",
+  answer: (
+    <>
+      Em alguns celulares, o arquivo grande pode gerar travamentos. Se isso acontecer, faça o processo de exportar um arquivo menor.{" "}
+      <Link href={videoUrl} target="_blank" className="text-blue-500 underline">
+        Veja como
+      </Link>
+    </>
+  ),
+},
   {
     question: "O formato do arquivo precisa ser JSON?",
     answer:
@@ -94,7 +109,7 @@ export default function TutorialPage() {
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
-        className="max-w-3xl mx-auto text-center px-4 pt-16"
+        className="max-w-7xl mx-auto text-center  pt-16"
       >
         <span className="inline-block text-xs font-semibold tracking-widest uppercase text-gray-400 mb-4">
           Tutorial
@@ -103,7 +118,7 @@ export default function TutorialPage() {
           Como usar em 4 passos simples
         </h1>
         <p className="text-gray-500 mt-4 text-sm md:text-lg">
-          Assista ao vídeo ou siga o passo a passo abaixo. Em menos de 5 minutos
+          Assista ao vídeo ou siga o passo a passo abaixo. Em menos de 3 minutos
           você já saberá quem não te segue de volta.
         </p>
       </motion.section>
@@ -121,7 +136,7 @@ export default function TutorialPage() {
     src="/unfalou.mp4"
     controls
     playsInline
-    className="h-[600px] w-auto"
+    className="h-150 w-auto"
   />
 </div>
       </motion.section>
@@ -148,7 +163,7 @@ export default function TutorialPage() {
               transition={{ duration: 0.5, delay: i * 0.1 }}
               className="flex gap-6 items-start bg-white border rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow duration-300"
             >
-              <span className="text-3xl font-extrabold text-gray-200 leading-none select-none min-w-[48px]">
+              <span className="text-3xl font-extrabold text-gray-200 leading-none select-none min-w-12">
                 {step.number}
               </span>
               <div>
@@ -188,7 +203,7 @@ export default function TutorialPage() {
             >
               <button
                 onClick={() => toggleFaq(i)}
-                className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-gray-50 transition-colors duration-200"
+                className="w-full flex items-center justify-between px-6 py-4  hover:cursor-pointer text-left hover:bg-gray-50 transition-colors duration-200"
               >
                 <span className="font-semibold text-sm md:text-base text-gray-900">
                   {faq.question}

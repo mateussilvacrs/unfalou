@@ -1,4 +1,4 @@
-import SplitText from "@/components/SplitText";
+import SplitText from "@/components/ui/SplitText";
 import Link from "next/link";
 
 export default function NotFound() {

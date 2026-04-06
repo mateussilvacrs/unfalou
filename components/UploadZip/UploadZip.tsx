@@ -369,7 +369,7 @@ export default function UploadZip({ onBothLoaded }: Props) {
           },
         ].map((step) => (
           <li key={step.n} className="flex gap-3 items-start">
-            <span className="font-extrabold text-gray-300 leading-none min-w-[20px]">
+            <span className="font-extrabold text-gray-300 leading-none min-w-5">
               {step.n}
             </span>
             <span>{step.text}</span>
@@ -424,7 +424,7 @@ export default function UploadZip({ onBothLoaded }: Props) {
           controls
           playsInline
           autoPlay
-          className="h-[400px] w-auto"
+          className="h-100 w-auto"
         />
       </div>
 
