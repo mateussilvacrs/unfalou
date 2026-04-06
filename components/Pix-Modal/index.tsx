@@ -1,3 +1,4 @@
+// components/Pix-Modal.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -16,23 +17,20 @@ export function PixModal({ open, onClose, pixKey, copied, onCopy }: Props) {
   const [qr, setQr] = useState("");
   const [picpayLink, setPicpayLink] = useState("");
 
-  // 🔥 Gera QR Code automaticamente
+  // 🔹 Gera QR Code quando abre o modal e tem a chave
   useEffect(() => {
     if (!open || !pixKey) return;
 
     QRCode.toDataURL(pixKey, {
       width: 512,
-      margin: 4, // importante pro banco ler
-      color: {
-        dark: "#000000",
-        light: "#FFFFFF",
-      },
+      margin: 4,
+      color: { dark: "#000000", light: "#FFFFFF" },
     })
       .then(setQr)
       .catch(() => setQr(""));
   }, [open, pixKey]);
 
-  // 🔥 Busca link do PicPay via API route
+  // 🔹 Busca link do PicPay via API
   useEffect(() => {
     if (!open) return;
 
@@ -84,22 +82,15 @@ export function PixModal({ open, onClose, pixKey, copied, onCopy }: Props) {
               <span className="text-xs text-gray-400">Gerando QR...</span>
             )}
           </div>
-          <span className="text-xs text-gray-400">
-            Escaneie com o app do banco
-          </span>
+          <span className="text-xs text-gray-400">Escaneie com o app do banco</span>
         </div>
 
         {/* PIX KEY */}
         <div className="flex flex-col gap-2">
-          <span className="text-xs text-gray-500 font-medium">
-            Ou copie a chave Pix:
-          </span>
-
+          <span className="text-xs text-gray-500 font-medium">Ou copie a chave Pix:</span>
           <div className="flex items-center gap-2 bg-gray-50 border rounded-xl px-4 py-3">
             {pixKey ? (
-              <span className="text-sm text-gray-700 flex-1 truncate">
-                {pixKey}
-              </span>
+              <span className="text-sm text-gray-700 flex-1 truncate">{pixKey}</span>
             ) : (
               <span className="text-sm text-gray-400 flex-1">Carregando...</span>
             )}
@@ -123,7 +114,7 @@ export function PixModal({ open, onClose, pixKey, copied, onCopy }: Props) {
           Pagar via PicPay
         </button>
 
-        {/* BOTÃO FECHAR */}
+        {/* FECHAR */}
         <button
           onClick={onClose}
           className="w-full py-2 border rounded-lg text-sm text-gray-600 hover:bg-gray-100 hover:cursor-pointer transition"
