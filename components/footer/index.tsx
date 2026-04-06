@@ -9,50 +9,37 @@ export default function Footer() {
   const [pixKey, setPixKey] = useState("");
   const [copied, setCopied] = useState(false);
 
-  // ✅ Função para abrir o modal somente depois de buscar a chave Pix
+  // ✅ Função para abrir o modal somente se a chave Pix for carregada
   const handlePixClick = async () => {
     try {
       const res = await fetch("/api/pix");
       const data = await res.json();
-      if (!data.key) throw new Error("Pix não encontrado");
+
+      if (!data.key) {
+        alert("Não foi possível gerar a chave Pix. Tente novamente mais tarde.");
+        return;
+      }
 
       setPixKey(data.key);
-      setShowPix(true); // abre modal após carregar a chave
+      setShowPix(true); // abre modal apenas se a chave existir
     } catch (err) {
-      alert("Não foi possível carregar a chave Pix. Tente novamente.");
+      alert("Não foi possível gerar a chave Pix. Verifique sua conexão e tente novamente.");
     }
   };
 
-  // ✅ Função de copiar Pix
   const copyPix = async () => {
     try {
       await navigator.clipboard.writeText(pixKey);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     } catch {
-      const textarea = document.createElement("textarea");
-      textarea.value = pixKey;
-      textarea.style.position = "fixed";
-      textarea.style.opacity = "0";
-      document.body.appendChild(textarea);
-      textarea.focus();
-      textarea.select();
-
-      try {
-        document.execCommand("copy");
-      } catch {
-        alert("Não foi possível copiar. Copie manualmente.");
-      }
-
-      document.body.removeChild(textarea);
+      alert("Não foi possível copiar a chave. Copie manualmente.");
     }
-
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
     <footer className="bg-linear-to-r from-black to-[#010b97] text-white">
       <div className="max-w-7xl mx-auto px-4 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
-
         <span className="text-sm font-semibold tracking-wide">UnFalou</span>
 
         <p className="text-xs text-white/60 text-center">
@@ -77,7 +64,6 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* 🔥 PIX MODAL */}
       <PixModal
         open={showPix}
         onClose={() => setShowPix(false)}
