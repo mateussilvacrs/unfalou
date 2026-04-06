@@ -13,7 +13,7 @@ export default function Header() {
     
     <header className="bg-linear-90 from-[#000000] to-[#010b97] text-white">
       <Analytics />
-<div className="max-w-7xl mx-auto px-4 flex h-20 items-center justify-between w-full">
+<div className="max-w-7xl mx-auto p-4 md:p-0  flex h-20 items-center justify-between w-full">
     <Link href="/">
 
     <Image

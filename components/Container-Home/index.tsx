@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 
+
 type Props = {
   onAnalyzeClick?: () => void;
 };
@@ -33,7 +34,7 @@ export default function ContainerHome({ onAnalyzeClick }: Props) {
   ];
 
   return (
-    <div className=" flex flex-col gap-16">
+    <div className=" flex flex-col p-4 gap-16">
 
       {/* HEADER */}
       <motion.div

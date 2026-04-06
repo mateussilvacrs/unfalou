@@ -125,9 +125,9 @@ export function CarouselPlugin({ onAnalyzeClick, onPixClick }: Props) {
 
                     <Button
                       onClick={() => router.push("/atualizacoes")}
-                      className="w-20 text-[12px] mt-4 md:mt-6 bg-[#353535] text-white px-6 py-2 md:px-10 md:py-3 md:h-10 md:w-60 rounded-xl hover:bg-black transition-all duration-500"
+                      className="w-28 text-[12px] mt-4 md:mt-6 bg-[#353535] text-white px-6 py-2 md:px-10 md:py-3 md:h-10 md:w-60 rounded-xl hover:bg-black transition-all duration-500"
                     >
-                      VER ATUALIZAÇÕES
+                       ATUALIZAÇÕES
                     </Button>
                   </div>
                 </div>
@@ -158,7 +158,7 @@ export function CarouselPlugin({ onAnalyzeClick, onPixClick }: Props) {
 
                     <Button
                       onClick={() => onPixClick?.()}
-                      className="w-20 text-[12px] mt-4 md:mt-6 bg-[#353535] text-white px-6 py-2 md:px-10 md:py-3 md:h-10 md:w-60 rounded-xl hover:bg-black transition-all duration-500"
+                      className="w-24 text-[12px] mt-4 md:mt-6 bg-[#353535] text-white px-6 py-2 md:px-10 md:py-3 md:h-10 md:w-60 rounded-xl hover:bg-black transition-all duration-500"
                     >
                       APOIAR 💙
                     </Button>

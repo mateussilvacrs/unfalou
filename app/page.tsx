@@ -192,16 +192,16 @@ export default function Home() {
   const bothLoaded = followers.length > 0 && following.length > 0;
 
   return (
-    <div className="flex flex-col gap-12  dark:bg-gray-900 min-h-screen max-w-7xl m-auto pb-10">
+    <div className="flex flex-col gap-12  dark:bg-gray-900 min-h-screen max-w-7xl m-auto md:p-0">
 
       <CarouselPlugin
         onAnalyzeClick={handleAnalyzeClick}
         onPixClick={() => setShowPix(true)}
       />
-
-      <div className="max-w-7xl mx-auto w-full flex flex-col gap-10 ">
-
         <ContainerHome onAnalyzeClick={handleAnalyzeClick} />
+
+      <div className="max-w-7xl mx-auto w-full flex flex-col  gap-10 ">
+
 
         {visibleTable && (
           <DataTable

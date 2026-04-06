@@ -102,14 +102,14 @@ export default function TutorialPage() {
   }
 
   return (
-    <div className="flex flex-col gap-20 bg-gray-50 min-h-screen pb-20">
+    <div className="flex flex-col gap-14 bg-gray-50 min-h-screen pb-12">
 
       {/* HERO */}
       <motion.section
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
-        className="max-w-7xl mx-auto text-center  pt-16"
+        className="max-w-7xl mx-auto text-center  pt-6 px-4"
       >
         <span className="inline-block text-xs font-semibold tracking-widest uppercase text-gray-400 mb-4">
           Tutorial
