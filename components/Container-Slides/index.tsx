@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/carousel";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
-import TextType from "../TextType";
+import TextType from "../ui/TextType";
 
 type Props = {
   onAnalyzeClick?: () => void;
@@ -112,7 +112,7 @@ export function CarouselPlugin({ onAnalyzeClick, onPixClick }: Props) {
   {/* GIF só na metade esquerda */}
   <div className="absolute md:mt-5 inset-y-0 left-0 md:w-[50%] w-[45%] h-full z-310">
     <Image
-      src="/foguete-2.gif"
+      src="/foguete.gif"
       alt="home"
       fill
       className=" object-cover z-100 "
@@ -165,8 +165,8 @@ export function CarouselPlugin({ onAnalyzeClick, onPixClick }: Props) {
 
 
 
-<TextType className="w-[80%] text-xs md:text-3xl"
-  text={["A Unfalou é um projeto totalmente gratuíto e independente","Mas você pode ajudar a manter o site no ar fazendo uma doação via Pix. Qualquer valor é super bem-vindo e ajuda muito!"]}
+<TextType className="w-[60%] text-xs md:text-3xl"
+  text={["A Unfalou é um projeto totalmente gratuíto e independente.","Mas você pode ajudar a manter o site no ar fazendo uma doação via Pix, qualquer valor é super bem-vindo e ajuda muito!"]}
   typingSpeed={50}
   deletingSpeed={40}
   pauseDuration={1500}
@@ -176,7 +176,7 @@ export function CarouselPlugin({ onAnalyzeClick, onPixClick }: Props) {
 
                     <Button
                       onClick={() => onPixClick?.()}
-                      className="w-24 text-[12px] md:mt-6 bg-[#353535] text-white px-6 py-2 md:px-10 md:py-3 md:h-10 md:w-60 rounded-xl hover:bg-black transition-all duration-500"
+                      className=" animate-bounce w-24 text-xs md:text-sm md:mt-6 bg-[#ffffff] border-2 text-black px-6 py-2 md:px-10 md:py-3 md:h-10 md:w-60 rounded-xl hover:bg-gray-400 transition-all duration-500"
                     >
                       APOIAR 💙
                     </Button>
