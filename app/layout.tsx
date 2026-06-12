@@ -9,10 +9,53 @@ import Footer from "@/components/footer";
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
-  title: "Unfalou - Veja quem parou de te seguir",
-  description: "Veja quem parou de te seguir",
-  keywords: ["instagram", "seguidores", "quem deixou de seguir"],
-  
+  title: "Unfalou - Descubra quem deixou de seguir você no Instagram",
+  description:
+    "Veja quem não segue você de volta e descubra quem deixou de seguir seu Instagram. Tenha controle dos seus seguidores de forma simples e rápida.",
+  keywords: [
+    "instagram",
+    "seguidores",
+    "quem deixou de seguir",
+    "unfollow",
+    "não segue de volta",
+    "analisar seguidores instagram",
+    "perdi seguidores",
+    "controle instagram",
+    "unfalou",
+  ],
+
+  openGraph: {
+    title: "Unfalou - Veja quem deixou de seguir você no Instagram",
+    description:
+      "Descubra quem parou de seguir você no Instagram e acompanhe seus seguidores.",
+    url: "https://unfalou.com",
+    siteName: "Unfalou",
+    locale: "pt_BR",
+    type: "website",
+    images: [
+      {
+        url: "/logo-lateral.png",
+        width: 1200,
+        height: 630,
+        alt: "Unfalou - Controle seus seguidores do Instagram",
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "Unfalou - Descubra quem deixou de seguir você",
+    description:
+      "Analise seus seguidores do Instagram e veja quem não segue você de volta.",
+    images: ["/logo-lateral.png"],
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+  },
+
+  creator: "Unfalou",
 };
 
 export default function RootLayout({

@@ -9,6 +9,7 @@ import { CarouselPlugin } from "@/components/Container-Slides";
 import ContainerHome from "@/components/Container-Home";
 import { PixModal } from "@/components/Pix-Modal";
 
+
 type Payment = {
   id: string;
   link: string;
@@ -31,13 +32,13 @@ export default function Home() {
   const [visibleTable, setVisibleTable] = useState(false);
   const [showUpload, setShowUpload] = useState(false);
 
-  // 🔥 PIX STATE
+  //  PIX STATE
   const [showPix, setShowPix] = useState(false);
   const [pixKey, setPixKey] = useState("");
   const [copied, setCopied] = useState(false);
 
 
-  // 🔥 BUSCAR PIX
+  // BUSCAR PIX
   useEffect(() => {
     if (!showPix) return;
 
@@ -191,14 +192,18 @@ export default function Home() {
 
   const bothLoaded = followers.length > 0 && following.length > 0;
 
+
+
   return (
     <div className="flex flex-col gap-12  dark:bg-gray-900 min-h-screen max-w-7xl m-auto md:p-0">
+      <div className="flex flex-col justify-center items-center mt-10">
 
+      </div>
       <CarouselPlugin
         onAnalyzeClick={handleAnalyzeClick}
         onPixClick={() => setShowPix(true)}
       />
-        <ContainerHome onAnalyzeClick={handleAnalyzeClick} />
+        <ContainerHome  onAnalyzeClick={handleAnalyzeClick} />
 
       <div className="max-w-7xl mx-auto w-full flex flex-col  gap-10 ">
 
@@ -276,6 +281,10 @@ export default function Home() {
           </div>
         )}
       </div>
+
+
+
+
 
       {/* 🔥 AQUI ESTAVA FALTANDO */}
       <PixModal
