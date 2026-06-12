@@ -1,4 +1,4 @@
-"use client";
+
 
 import { useRef } from "react";
 import { motion } from "framer-motion";
@@ -40,6 +40,8 @@ export const metadata: Metadata = {
     ],
   },
 };
+
+"Use Client"
 
 const videoUrl = "https://www.loom.com/embed/your-video-id"; // Substitua pelo URL do seu vídeo
 
