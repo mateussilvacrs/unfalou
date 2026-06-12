@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
+          metadataBase: new URL("https://unfalou.com"),
+
   title: "Como usar o Unfalou - Veja quem deixou de seguir no Instagram",
   description:
     "Aprenda como usar o Unfalou para analisar seus seguidores e descobrir quem não segue você de volta no Instagram.",

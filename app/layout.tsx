@@ -9,6 +9,8 @@ import Footer from "@/components/footer";
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
+        metadataBase: new URL("https://unfalou.com"),
+
   title: "Unfalou - Descubra quem deixou de seguir você no Instagram",
   description:
     "Veja quem não segue você de volta e descubra quem deixou de seguir seu Instagram. Tenha controle dos seus seguidores de forma simples e rápida.",

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
+      metadataBase: new URL("https://unfalou.com"),
+
   title: "Atualizações - Unfalou",
   description:
     "Veja as novidades, melhorias e novos recursos do Unfalou para acompanhar seus seguidores no Instagram.",
