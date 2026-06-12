@@ -195,10 +195,7 @@ export default function Home() {
 
 
   return (
-    <div className="flex flex-col gap-12  dark:bg-gray-900 min-h-screen max-w-7xl m-auto md:p-0">
-      <div className="flex flex-col justify-center items-center mt-10">
-
-      </div>
+    <div className="flex flex-col gap-8  dark:bg-gray-900 min-h-screen max-w-7xl m-auto md:p-0">
       <CarouselPlugin
         onAnalyzeClick={handleAnalyzeClick}
         onPixClick={() => setShowPix(true)}
@@ -226,9 +223,9 @@ export default function Home() {
         )}
 
         {bothLoaded && !showUpload && (
-          <div className="flex flex-col gap-8 animate-fadeIn">
+          <div className="flex flex-col px-4 gap-8 animate-fadeIn">
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
               {[
                 {
                   label: "Seguidores",
@@ -268,7 +265,7 @@ export default function Home() {
               ))}
             </div>
 
-            <div className="flex justify-center">
+            <div className="flex justify-center mb-10">
               <Button
                 variant="outline"
                 className="px-8 py-2 hover:bg-gray-100 transition duration-800 hover:cursor-pointer bg-black text-white"

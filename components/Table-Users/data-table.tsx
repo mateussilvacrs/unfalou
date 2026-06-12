@@ -94,7 +94,7 @@ export function DataTable<TData, TValue>({
   const end = Math.min(totalPages, start + maxPages);
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto px-4">
 
       <div className="bg-white rounded-xl shadow-sm border p-4">
 

@@ -255,8 +255,8 @@ export default function UploadZip({ onBothLoaded }: Props) {
   }
 
   return (
-    <div>
-      <Card className="w-90 md:w-7xl">
+    <div className="md:px-4 w-90 md:w-7xl mb-10">
+      <Card >
         <CardHeader className="text-center">
           <CardTitle>Faça sua verificação</CardTitle>
           <CardDescription>
