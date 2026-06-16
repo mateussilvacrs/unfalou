@@ -419,13 +419,13 @@ export default function UploadZip({ onBothLoaded }: Props) {
       </div>
 
       <div className="rounded-xl overflow-hidden bg-black flex justify-center">
-        <video
-          src="/unfalou.mp4"
-          controls
-          playsInline
-          autoPlay
-          className="h-100 w-auto"
-        />
+<video
+  src="/big-file-unfalou.mp4"
+  controls
+  playsInline
+  muted={false}
+  className="h-100 w-auto"
+/>
       </div>
 
       <button

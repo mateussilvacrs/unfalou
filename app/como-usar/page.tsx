@@ -7,12 +7,18 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { useState } from "react";
+
+
+export default function TutorialPage() {
+  const [showVideoModal, setShowVideoModal] = useState(false);
+  const router = useRouter();
+  const faqRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const openIndexRef = useRef<number | null>(null);
 
 
 
 
-const videoUrl = "https://www.loom.com/embed/your-video-id"; // Substitua pelo URL do seu vídeo
 
 const steps = [
   {
@@ -58,9 +64,12 @@ const faqs = [
   answer: (
     <>
       Em alguns celulares, o arquivo grande pode gerar travamentos. Se isso acontecer, faça o processo de exportar um arquivo menor.{" "}
-      <Link href={videoUrl} target="_blank" className="text-blue-500 underline">
+      <button
+        onClick={() => setShowVideoModal(true)}
+        className="text-blue-500 underline hover:cursor-pointer"
+      >
         Veja como
-      </Link>
+      </button>
     </>
   ),
 },
@@ -81,10 +90,7 @@ const faqs = [
   },
 ];
 
-export default function TutorialPage() {
-  const router = useRouter();
-  const faqRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const openIndexRef = useRef<number | null>(null);
+
 
   function toggleFaq(index: number) {
     const current = faqRefs.current[index];
@@ -144,6 +150,8 @@ export default function TutorialPage() {
     className="h-150 w-auto"
   />
 </div>
+
+
       </motion.section>
 
       {/* PASSO A PASSO */}
@@ -253,6 +261,49 @@ export default function TutorialPage() {
           </Button>
         </div>
       </motion.section>
+
+{showVideoModal && (
+  <div
+    className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+    onClick={() => setShowVideoModal(false)}
+  >
+    <div
+      className="bg-white rounded-2xl shadow-2xl w-full max-w-sm flex flex-col gap-4 p-4"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className="flex items-center justify-between">
+        <span className="font-semibold text-sm text-gray-900">
+          Como exportar um arquivo menor
+        </span>
+
+        <button
+          onClick={() => setShowVideoModal(false)}
+          className="text-gray-400 hover:text-gray-700 transition text-lg"
+        >
+          ✕
+        </button>
+      </div>
+
+      <div className="rounded-xl overflow-hidden bg-black flex justify-center">
+<video
+  src="/big-file-unfalou.mp4"
+  controls
+  playsInline
+  muted={false}
+  className="h-100 w-auto"
+/>
+      </div>
+
+      <button
+        onClick={() => setShowVideoModal(false)}
+        className="w-full py-2 border rounded-lg text-sm hover:bg-gray-100 transition"
+      >
+        Fechar
+      </button>
+    </div>
+  </div>
+)}
+
 
     </div>
   );

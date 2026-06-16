@@ -3,16 +3,54 @@
 import { useRef } from "react";
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-
+import Image from "next/image";
+import type { ReactNode } from "react";
 
 type Update = {
   version: string;
   date: string;
   tag: "Nova" | "Melhoria" | "Correção";
-  changes: React.ReactNode[];
+  changes: ReactNode[];
 };
 
 const updates: Update[] = [
+
+ {
+    version: "1.0.5",
+    date: "16/06/2026",
+    tag: "Melhoria",
+    changes: [
+      <>
+        <strong key="video-texto" >Adicionado um novo vídeo</strong>
+      </>,
+
+      "Adicionado um video explicando o que significa a mensagem abaixo:",
+<Image
+  key="imagem-version"
+
+  src="/screenshot-version-1.0.5.png"
+  alt="Screenshot"
+  width={1920}
+  height={1080}
+  quality={100}
+  className="w-full h-auto rounded-xl"
+/>,
+"Clicando em ver vídeo explicativo abre um modal com o vídeo",
+
+<Image
+  key="imagem-version"
+  src="/screenshot1-version-1.0.5.png"
+  alt="Screenshot da versão 1.0.5"
+  width={1920}
+  height={1080}
+  quality={100}
+  className="w-full h-full rounded-xl"
+/>,
+
+    ]
+  },
+
+
   {
     version: "1.0.0",
     date: "10/04/2026",
