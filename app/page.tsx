@@ -213,8 +213,8 @@ const notRecentUnfollowCount = recentUnfollow.length;
     ...following.map((f) => f.username),
   ]).size;
 
-  const bothLoaded = followers.length > 0 && following.length > 0;
-
+const bothLoaded =
+  followers.length > 0 || following.length > 0 || recentUnfollow.length > 0;
 
 
   return (
