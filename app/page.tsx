@@ -26,6 +26,8 @@ type UserWithDate = {
 export default function Home() {
   const [followers, setFollowers] = useState<UserWithDate[]>([]);
   const [following, setFollowing] = useState<UserWithDate[]>([]);
+    const [recentUnfollow, setRecentUnfollow] = useState<UserWithDate[]>([]);
+
   const [payments, setPayments] = useState<Payment[]>([]);
   const [tableTitle, setTableTitle] = useState("");
   const [isComparing, setIsComparing] = useState(false);
@@ -86,14 +88,16 @@ export default function Home() {
     }, 100);
   };
 
-  const handleBothLoaded = (
-    newFollowers: UserWithDate[],
-    newFollowing: UserWithDate[],
-  ) => {
-    setFollowers(newFollowers);
-    setFollowing(newFollowing);
-    setShowUpload(false);
-  };
+const handleBothLoaded = (
+  newFollowers: UserWithDate[],
+  newFollowing: UserWithDate[],
+  newRecentUnfollow: UserWithDate[],
+) => {
+  setFollowers(newFollowers);
+  setFollowing(newFollowing);
+  setRecentUnfollow(newRecentUnfollow);
+  setShowUpload(false);
+};
 
 
   const showFollowersUsers = () => {
@@ -141,6 +145,22 @@ export default function Home() {
     setPayments(result);
   };
 
+  
+const showRecentUnfollow = () => {
+  const result: Payment[] = recentUnfollow.map((user, index) => ({
+    id: String(index),
+    username: user.username,
+    hora: user.date,
+    link: `https://instagram.com/${user.username}`,
+    status: "Não",
+  }));
+
+  setIsComparing(false);
+  setTableTitle("Pessoas que deixaram de seguir você recentemente");
+  setVisibleTable(true);
+  setPayments(result);
+};
+
   const showAllUsers = () => {
     const followersSet = new Set(followers.map((f) => f.username));
     const followingSet = new Set(following.map((f) => f.username));
@@ -173,6 +193,7 @@ export default function Home() {
   const resetVerification = () => {
     setFollowers([]);
     setFollowing([]);
+    setRecentUnfollow([])
     setPayments([]);
     setVisibleTable(false);
     setShowUpload(false);
@@ -184,6 +205,8 @@ export default function Home() {
   const notFollowingBackCount = following.filter(
     (user) => !followersSet.has(user.username),
   ).length;
+
+const notRecentUnfollowCount = recentUnfollow.length;
 
   const totalUsers = new Set([
     ...followers.map((f) => f.username),
@@ -225,8 +248,15 @@ export default function Home() {
         {bothLoaded && !showUpload && (
           <div className="flex flex-col px-4 gap-8 animate-fadeIn">
 
-            <div className="px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-              {[
+<div className="
+  px-4 
+  grid 
+  grid-cols-1 
+  sm:grid-cols-2 
+  md:grid-cols-3 
+  lg:grid-cols-5 
+  gap-6
+">              {[
                 {
                   label: "Seguidores",
                   value: followers.length,
@@ -243,6 +273,15 @@ export default function Home() {
                   label: "Não seguem você",
                   value: notFollowingBackCount,
                   action: showNotFollowingBack,
+                  color: "bg-red-50 text-red-700",
+                },
+
+                                {
+
+ label: "Deixou de seguir",
+ value: notRecentUnfollowCount,
+ action: showRecentUnfollow,
+
                   color: "bg-red-50 text-red-700",
                 },
                 {

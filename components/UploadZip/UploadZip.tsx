@@ -31,9 +31,10 @@ type InstagramData = {
 
 type FollowersJson = { relationships_followers: InstagramData[] };
 type FollowingJson = { relationships_following: InstagramData[] };
+type RecentJson = {relationships_unfollowed_users: InstagramData[]}
 
 type Props = {
-  onBothLoaded: (followers: UserWithDate[], following: UserWithDate[]) => void;
+  onBothLoaded: (followers: UserWithDate[], following: UserWithDate[], recentUnfollow: UserWithDate[]) => void;
 };
 
 type ValidationError = "not_instagram_zip" | "invalid_json" | "file_too_large" | null;
@@ -44,12 +45,14 @@ const WARN_FILE_MB = 50;
 function isValidInstagramZip(fileNames: string[]): boolean {
   const hasFollowers = fileNames.some((n) => /followers_\d+\.json$/i.test(n));
   const hasFollowing = fileNames.some((n) => /following(_\d+)?\.json$/i.test(n));
-  return hasFollowers || hasFollowing;
+    const recentUnFollowing = fileNames.some((n) => /recently_unfollowed_profiles(_\d+)?\.json$/i.test(n));
+
+  return hasFollowers || hasFollowing || recentUnFollowing;
 }
 
 function isValidInstagramJson(
   json: unknown,
-): json is InstagramData[] | FollowersJson | FollowingJson {
+): json is InstagramData[] | FollowersJson | FollowingJson | RecentJson {
   if (Array.isArray(json)) {
     return json.every(
       (item) =>
@@ -64,12 +67,16 @@ function isValidInstagramJson(
       return Array.isArray((json as FollowersJson).relationships_followers);
     if ("relationships_following" in json)
       return Array.isArray((json as FollowingJson).relationships_following);
+        if ("relationships_unfollowed_users" in json)
+      return Array.isArray((json as RecentJson).relationships_unfollowed_users);
+
+
   }
   return false;
 }
 
 function extractUsers(
-  json: InstagramData[] | FollowersJson | FollowingJson,
+  json: InstagramData[] | FollowersJson | FollowingJson | RecentJson,
 ): UserWithDate[] {
   const extract = (data: InstagramData[]) =>
     data.flatMap((item) =>
@@ -87,6 +94,8 @@ function extractUsers(
   if ("relationships_following" in json)
     return extract(json.relationships_following);
 
+          if ("relationships_unfollowed_users" in json)
+    return extract(json.relationships_unfollowed_users);
   return [];
 }
 
@@ -181,10 +190,15 @@ export default function UploadZip({ onBothLoaded }: Props) {
         /following(_\d+)?\.json$/i.test(f.name),
       );
 
+            const recentUnfolowFiles = files.filter((f) =>
+        /recently_unfollowed_profiles(_\d+)?\.json$/i.test(f.name),
+      );
+
       let followersUsers: UserWithDate[] = [];
       let followingUsers: UserWithDate[] = [];
+      let recentUnfolowUsers: UserWithDate[] = [];
 
-      const total = followersFiles.length + followingFiles.length;
+      const total = followersFiles.length + followingFiles.length + recentUnfolowFiles.length;
       let done = 0;
 
       setProgressLabel("Lendo seguidores...");
@@ -213,12 +227,31 @@ export default function UploadZip({ onBothLoaded }: Props) {
         setProgress(50 + Math.round((done / total) * 45));
       }
 
+setProgressLabel("Lendo unfollows recentes...");
+
+for (const f of recentUnfolowFiles) {
+  const json = await parseZipFile(f);
+
+  if (!isValidInstagramJson(json)) {
+    setError("invalid_json");
+    return;
+  }
+
+  recentUnfolowUsers = recentUnfolowUsers.concat(extractUsers(json));
+
+  done++;
+  setProgress(50 + Math.round((done / total) * 45));
+}
+
+
+
+
       setProgress(100);
       setProgressLabel("Concluído!");
 
       await new Promise((r) => setTimeout(r, 400));
 
-      onBothLoaded(followersUsers, followingUsers);
+      onBothLoaded(followersUsers, followingUsers, recentUnfolowUsers);
     } catch {
       setError("not_instagram_zip");
     } finally {
@@ -253,6 +286,8 @@ export default function UploadZip({ onBothLoaded }: Props) {
     if (!file) return;
     await processFile(file);
   }
+
+  console.log()
 
   return (
     <div className="md:px-4 w-90 md:w-7xl mb-10">
