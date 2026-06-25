@@ -29,7 +29,7 @@ type InstagramData = {
   string_list_data: InstagramUser[];
 };
 
-type RecentUnfollowItem = {
+type UnfollowItem = {
   timestamp: number;
   label_values: { label: string; value: string }[];
 };
@@ -51,13 +51,30 @@ function isValidInstagramZip(fileNames: string[]): boolean {
   const hasFollowers = fileNames.some((n) => /followers_\d+\.json$/i.test(n));
   const hasFollowing = fileNames.some((n) => /following(_\d+)?\.json$/i.test(n));
   const recentUnFollowing = fileNames.some((n) => /recently_unfollowed_profiles(_\d+)?\.json$/i.test(n));
-
   return hasFollowers || hasFollowing || recentUnFollowing;
+}
+
+function extractUnfollowItem(item: UnfollowItem): UserWithDate | null {
+  const usernameFromLabel =
+    item.label_values.find((l) => l.label.toLowerCase().includes("rio"))?.value ?? "";
+  const urlValue =
+    item.label_values.find(
+      (l) => l.label === "URL" && l.value.includes("instagram.com"),
+    )?.value ?? "";
+  const usernameFromUrl = urlValue.split("/").filter(Boolean).pop() ?? "";
+  const username = usernameFromLabel || usernameFromUrl;
+  if (!username) return null;
+  return {
+    username,
+    date: item.timestamp
+      ? new Date(item.timestamp * 1000).toLocaleDateString("pt-BR")
+      : "",
+  };
 }
 
 function isValidInstagramJson(
   json: unknown,
-): json is InstagramData[] | FollowersJson | FollowingJson | RecentJson | RecentUnfollowItem[] {
+): json is InstagramData[] | FollowersJson | FollowingJson | RecentJson | UnfollowItem[] | UnfollowItem {
   if (Array.isArray(json)) {
     if (json.length === 0) return true;
     if ("label_values" in (json[0] as object)) {
@@ -66,7 +83,7 @@ function isValidInstagramJson(
           typeof item === "object" &&
           item !== null &&
           "label_values" in item &&
-          Array.isArray((item as RecentUnfollowItem).label_values),
+          Array.isArray((item as UnfollowItem).label_values),
       );
     }
     return json.every(
@@ -84,43 +101,39 @@ function isValidInstagramJson(
       return Array.isArray((json as FollowingJson).relationships_following);
     if ("relationships_unfollowed_users" in json)
       return Array.isArray((json as RecentJson).relationships_unfollowed_users);
+    if ("label_values" in json)
+      return Array.isArray((json as UnfollowItem).label_values);
   }
   return false;
 }
 
 function extractUsers(
-  json: InstagramData[] | FollowersJson | FollowingJson | RecentJson | RecentUnfollowItem[],
+  json: InstagramData[] | FollowersJson | FollowingJson | RecentJson | UnfollowItem[] | UnfollowItem,
 ): UserWithDate[] {
-if (
-  Array.isArray(json) &&
-  json.length > 0 &&
-  "label_values" in (json[0] as object)
-) {
-  return (json as RecentUnfollowItem[])
-    .map((item) => {
-      // Tenta username direto do label (mais confiável)
-      const usernameFromLabel =
-        item.label_values.find((l) => l.label.toLowerCase().includes("rio"))
-          ?.value ?? "";
+  // Objeto único com label_values
+  if (
+    !Array.isArray(json) &&
+    typeof json === "object" &&
+    json !== null &&
+    "label_values" in json &&
+    !("relationships_followers" in json) &&
+    !("relationships_following" in json) &&
+    !("relationships_unfollowed_users" in json)
+  ) {
+    const result = extractUnfollowItem(json as UnfollowItem);
+    return result ? [result] : [];
+  }
 
-      // Fallback: extrai da URL do Instagram
-      const urlValue =
-        item.label_values.find(
-          (l) => l.label === "URL" && l.value.includes("instagram.com"),
-        )?.value ?? "";
-      const usernameFromUrl = urlValue.split("/").filter(Boolean).pop() ?? "";
-
-      const username = usernameFromLabel || usernameFromUrl;
-
-      return {
-        username,
-        date: item.timestamp
-          ? new Date(item.timestamp * 1000).toLocaleDateString("pt-BR")
-          : "",
-      };
-    })
-    .filter((user) => user.username !== "");
-}
+  // Array com label_values
+  if (
+    Array.isArray(json) &&
+    json.length > 0 &&
+    "label_values" in (json[0] as object)
+  ) {
+    return (json as UnfollowItem[])
+      .map(extractUnfollowItem)
+      .filter((u): u is UserWithDate => u !== null);
+  }
 
   const extract = (data: InstagramData[]) =>
     data.flatMap((item) =>
@@ -132,13 +145,16 @@ if (
       })),
     );
 
-  if (Array.isArray(json)) return extract(json as InstagramData[]);
-  if ("relationships_followers" in json)
-    return extract(json.relationships_followers);
-  if ("relationships_following" in json)
-    return extract(json.relationships_following);
-  if ("relationships_unfollowed_users" in json)
-    return extract(json.relationships_unfollowed_users);
+if (Array.isArray(json)) return extract(json as InstagramData[]);
+  
+if (Array.isArray(json)) return extract(json as InstagramData[]);
+
+  if ("relationships_followers" in (json as object))
+    return extract((json as FollowersJson).relationships_followers);
+  if ("relationships_following" in (json as object))
+    return extract((json as FollowingJson).relationships_following);
+  if ("relationships_unfollowed_users" in (json as object))
+    return extract((json as RecentJson).relationships_unfollowed_users);
   return [];
 }
 
